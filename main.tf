@@ -3,11 +3,11 @@ terraform {
 }
 
 variable "subject" {
-   type = string
-   default = "World"
-   description = "Subject to hello"
+  type        = string
+  default     = "World"
+  description = "Subject to hello"
 }
 
 output "hello_world" {
-  value = "Hello branch demo with source change, ${var.subject}!"
+  value = "Hello branch2 demo with source change, ${var.subject}!"
 }
