@@ -12,7 +12,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30s
-  url: https://github.com/tf-controller/helloworld
+  url: https://github.com/alexsaker/helloworld-gitops
   ref:
     branch: main
 ---
