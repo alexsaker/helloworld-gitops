@@ -29,3 +29,18 @@ spec:
     name: helloworld
     namespace: flux-system
 ```
+
+## Oci Image generation
+
+If you are willing to use oci image of the terraform code you can build and push oci images with the following commands.
+
+```bash
+flux push artifact oci://ghcr.io/alexsaker/helloworld:$(git rev-parse --short HEAD) \
+	--path="./" \
+	--source="$(git config --get remote.origin.url)" \
+	--revision="$(git branch --show-current)/$(git rev-parse HEAD)"
+
+
+ flux tag artifact oci://ghcr.io/alexsaker/helloworld:$(git rev-parse --short HEAD) \
+  --tag latest
+```
