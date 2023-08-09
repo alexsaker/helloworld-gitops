@@ -44,3 +44,41 @@ flux push artifact oci://ghcr.io/alexsaker/helloworld:$(git rev-parse --short HE
  flux tag artifact oci://ghcr.io/alexsaker/helloworld:$(git rev-parse --short HEAD) \
   --tag latest
 ```
+
+And specify in your configuration repository
+
+```yaml
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: helloworld
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: oci://ghcr.io/alexsaker/helloworld
+  ref:
+    tag: latest
+  provider: generic
+  secretRef:
+    name: ghcr-auth
+---
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata:
+  name: helloworld-tf
+  namespace: flux-system
+spec:
+  path: ./
+  interval: 1m
+  approvePlan: auto
+  sourceRef:
+    kind: OCIRepository
+    name: helloworld
+    namespace: flux-system
+  vars:
+    - name: subject
+      value: Bobi
+  writeOutputsToSecret:
+    name: helloworld-output
+```
